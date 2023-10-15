@@ -12,6 +12,8 @@ appcompat = "1.6.1"
 material = "1.10.0"
 org-jetbrains-kotlin-jvm = "1.9.0"
 retrofit = "2.9.0"
+dagger = "2.40.5"
+anvil = "2.4.8"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -32,6 +34,10 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+anvil-annotations = { group = "com.squareup.anvil", name = "annotations", version.ref = "anvil" }
+anvil-compiler = { group = "com.squareup.anvil", name = "compiler", version.ref = "anvil" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
