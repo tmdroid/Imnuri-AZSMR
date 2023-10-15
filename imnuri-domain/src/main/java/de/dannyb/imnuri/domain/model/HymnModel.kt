@@ -1,0 +1,11 @@
+package de.dannyb.imnuri.domain.model
+
+data class HymnModel(
+    val number: Int,
+    val title: String,
+    val category: String,
+    val key: String,
+    val verses: ArrayList<String>,
+    val hasMusicSheet: Boolean,
+    val hasMp3: Boolean,
+)
