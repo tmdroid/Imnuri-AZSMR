@@ -4,5 +4,5 @@ import de.dannyb.imnuri.domain.model.HymnModel
 import kotlinx.coroutines.flow.Flow
 
 interface HymnsRepository {
-    fun getAllHymns(): Flow<List<HymnModel>>
+    suspend fun getAllHymns(): List<HymnModel>
 }

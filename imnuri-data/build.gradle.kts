@@ -51,20 +51,18 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
 
-    // Retrofit
+    // OkHttp + Retrofit
+    implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
-    // Dagger
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    // Anvil
-    implementation(libs.anvil.annotations)
-    ksp(libs.anvil.compiler)
+    // Dagger Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     // Room
     implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
@@ -73,7 +71,7 @@ dependencies {
 }
 
 class HiddenConstants {
-    val cache : Map<String, String> by lazy {
+    val cache: Map<String, String> by lazy {
         Properties().apply {
             val localPropertiesFile = rootProject.file("local.properties")
             if (localPropertiesFile.exists()) {

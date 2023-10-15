@@ -11,4 +11,6 @@ java {
 
 dependencies {
     implementation(libs.coroutines.core)
+    implementation(libs.javax.inject)
+    implementation(libs.hilt.core)
 }

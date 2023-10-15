@@ -6,10 +6,8 @@ import de.dannyb.imnuri.data.mapper.HymnEntityToModelMapper
 import de.dannyb.imnuri.data.remote.ImnuriService
 import de.dannyb.imnuri.domain.model.HymnModel
 import de.dannyb.imnuri.domain.repository.HymnsRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
@@ -20,21 +18,24 @@ class HymnsRepositoryImpl @Inject constructor(
     private val hymnsEntityToModelMapper: HymnEntityToModelMapper,
 ) : HymnsRepository {
 
-    override fun getAllHymns(): Flow<List<HymnModel>> = flow {
+    override suspend fun getAllHymns(): List<HymnModel> {
         if (dao.getNumberOfHymns() == 0) {
             fetchHymnsAndFeedDb()
         }
 
-        val hymns = dao.getAllHymns().map { hymns ->
-            hymns.map { hymnsEntityToModelMapper.map(it) }
-        }
-        emitAll(hymns)
+        return dao.getAllHymns().map { hymnsEntityToModelMapper.map(it) }
     }
 
-    private suspend fun fetchHymnsAndFeedDb() {
-        val locale = Locale.getDefault().language
+    private suspend fun fetchHymnsAndFeedDb() = withContext(Dispatchers.IO) {
+        val locale = validateLanguage(Locale.getDefault().language)
         val hymnsFromApi = api.getHymns(locale).hymns
         val hymnsEntities = hymnsFromApi.map { hymnsDtoToEntityMapper.map(it) }
         dao.insertAll(hymnsEntities)
+    }
+
+    private fun validateLanguage(language: String): String = when (language) {
+        "it" -> "it"
+        "de" -> "de"
+        else -> "ro"
     }
 }

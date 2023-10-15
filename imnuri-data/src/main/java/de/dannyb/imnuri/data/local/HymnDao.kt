@@ -14,7 +14,7 @@ interface HymnDao {
     suspend fun insertAll(hymns: List<HymnEntity>)
 
     @Query("SELECT * FROM hymns")
-    fun getAllHymns(): Flow<List<HymnEntity>>
+    suspend fun getAllHymns(): List<HymnEntity>
 
     @Query("SELECT COUNT(*) FROM hymns")
     fun getNumberOfHymns(): Int

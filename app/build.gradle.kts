@@ -1,8 +1,8 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    id("org.jetbrains.kotlin.kapt")
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -48,7 +48,14 @@ android {
     }
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
 dependencies {
+
+    implementation(project(":imnuri-domain"))
+    implementation(project(":imnuri-data"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -59,13 +66,10 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
 
-    // Dagger
-    implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
-
-    // Anvil
-    implementation(libs.anvil.annotations)
-    kapt(libs.anvil.compiler)
+    // Dagger Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.lifecycle.viewmodel.compose)
 
 
     testImplementation(libs.junit)

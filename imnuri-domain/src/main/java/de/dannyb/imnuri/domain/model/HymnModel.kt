@@ -5,7 +5,7 @@ data class HymnModel(
     val title: String,
     val category: String,
     val key: String,
-    val verses: ArrayList<String>,
+    val verses: List<String>,
     val hasMusicSheet: Boolean,
     val hasMp3: Boolean,
 )
