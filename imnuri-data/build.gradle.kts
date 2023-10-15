@@ -61,6 +61,10 @@ dependencies {
     implementation(libs.anvil.annotations)
     ksp(libs.anvil.compiler)
 
+    // Room
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
