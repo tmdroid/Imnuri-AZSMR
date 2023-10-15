@@ -12,7 +12,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 org-jetbrains-kotlin-jvm = "1.9.0"
 retrofit = "2.9.0"
-dagger = "2.40.5"
+dagger = "2.48.1"
 anvil = "2.4.8"
 
 [libraries]
