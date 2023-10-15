@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class GetAllHymnsUseCase @Inject constructor(
     private val repository: HymnsRepository
-) : UseCase<List<HymnModel>> {
-    override suspend fun execute(): List<HymnModel> = repository.getAllHymns()
+) {
+    suspend fun execute(query: String?): List<HymnModel> = repository.getAllHymns(query)
 }

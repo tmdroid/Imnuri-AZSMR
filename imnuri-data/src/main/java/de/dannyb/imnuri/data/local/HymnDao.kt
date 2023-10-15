@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import de.dannyb.imnuri.data.local.entities.HymnEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HymnDao {
@@ -18,5 +17,11 @@ interface HymnDao {
 
     @Query("SELECT COUNT(*) FROM hymns")
     fun getNumberOfHymns(): Int
+
+    @Query("SELECT * FROM hymns WHERE CAST(number AS TEXT) LIKE :prefix || '%'")
+    fun getHymnByNumber(prefix: Int): List<HymnEntity>
+
+    @Query("SELECT * FROM hymns WHERE title LIKE '%' || :title || '%'")
+    fun getHymnByTitle(title: String): List<HymnEntity>
 
 }

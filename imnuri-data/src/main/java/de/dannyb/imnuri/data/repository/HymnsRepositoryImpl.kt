@@ -18,12 +18,20 @@ class HymnsRepositoryImpl @Inject constructor(
     private val hymnsEntityToModelMapper: HymnEntityToModelMapper,
 ) : HymnsRepository {
 
-    override suspend fun getAllHymns(): List<HymnModel> {
+    override suspend fun getAllHymns(query: String?): List<HymnModel> {
         if (dao.getNumberOfHymns() == 0) {
             fetchHymnsAndFeedDb()
         }
 
-        return dao.getAllHymns().map { hymnsEntityToModelMapper.map(it) }
+        val hymns = if(query == null) dao.getAllHymns() else {
+            if(query.toIntOrNull() != null) {
+                dao.getHymnByNumber(query.toInt())
+            } else {
+                dao.getHymnByTitle(query)
+            }
+        }
+
+        return hymns.map { hymnsEntityToModelMapper.map(it) }
     }
 
     private suspend fun fetchHymnsAndFeedDb() = withContext(Dispatchers.IO) {
