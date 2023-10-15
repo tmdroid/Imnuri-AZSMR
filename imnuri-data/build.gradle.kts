@@ -1,3 +1,5 @@
+import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidLibrary)
@@ -14,6 +16,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val hiddenConstants = HiddenConstants()
+        buildConfigField("String", "BASE_URL", hiddenConstants.cache["baseUrl"]!!)
     }
 
     buildTypes {
@@ -31,6 +36,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -55,4 +63,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+}
+
+class HiddenConstants {
+    val cache : Map<String, String> by lazy {
+        Properties().apply {
+            val localPropertiesFile = rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                localPropertiesFile.inputStream().use { load(it) }
+            }
+        }.let { properties ->
+            properties.propertyNames().toList().map { it.toString() }
+                .associateWith { properties.getProperty(it) as String }
+        }
+    }
 }
