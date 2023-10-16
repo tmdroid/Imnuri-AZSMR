@@ -16,25 +16,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import de.dannyb.imnuri.domain.model.HymnModel
 import de.dannyb.imnuri.ui.components.MyToolbar
 
 @Composable
-fun HymnsScreen(hymnsViewModel: HymnsViewModel = viewModel()) {
-    val screenState = hymnsViewModel.screenState.collectAsState()
-    hymnsViewModel.getAllHymns()
+fun HymnsScreen(hymnsListViewModel: HymnsListViewModel, onHymnClick: (HymnModel) -> Unit) {
+    val screenState = hymnsListViewModel.screenState.collectAsState()
+    hymnsListViewModel.getAllHymns()
 
     Scaffold(
         topBar = {
             MyToolbar(screenState.value.toolbarState) { query ->
-                hymnsViewModel.getAllHymns(query)
+                hymnsListViewModel.getAllHymns(query)
             }
         },
     ) {
-        HymnListScreen(it, screenState.value.hymns) { hymn ->
-            println("Clicked hymn number ${hymn.number}")
-        }
+        HymnListScreen(it, screenState.value.hymns) { hymn -> onHymnClick(hymn) }
     }
 }
 

@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HymnsViewModel @Inject constructor(
+class HymnsListViewModel @Inject constructor(
     private val getAllHymnsUseCase: GetAllHymnsUseCase
 ) : ViewModel() {
 

@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
+    implementation(libs.navigation.compose)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
@@ -70,6 +71,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.hilt.navigation.compose)
 
 
     testImplementation(libs.junit)
