@@ -8,4 +8,5 @@ data class HymnModel(
     val verses: List<String>,
     val hasMusicSheet: Boolean,
     val hasAudio: Boolean,
+    val isFavorite: Boolean,
 )

@@ -3,6 +3,7 @@ package de.dannyb.imnuri.ui.screens.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import de.dannyb.imnuri.data.pref.Preferences
 import de.dannyb.imnuri.domain.usecase.GetHymnUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,10 +13,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HymnDetailsViewModel @Inject constructor(
-    private val getHymnUseCase: GetHymnUseCase
+    private val getHymnUseCase: GetHymnUseCase,
+    private val preferences: Preferences,
 ) : ViewModel(), HymnDetailsOperations {
 
-    private val _state = MutableStateFlow(HymnDetailsScreenState())
+    private val _state = MutableStateFlow(HymnDetailsScreenState(zoom = preferences.zoom))
     val state: StateFlow<HymnDetailsScreenState> get() = _state
 
     fun loadHymn(number: Int) = viewModelScope.launch(Dispatchers.IO) {
@@ -34,12 +36,23 @@ class HymnDetailsViewModel @Inject constructor(
 
     override fun onZoomChanged(zoom: Int) {
         _state.value = _state.value.copy(zoom = zoom)
+        preferences.zoom = zoom
     }
 
     override fun onMusicSheetIconClicked() {
     }
 
     override fun onAudioIconClicked() {
+    }
+
+    override fun onFavoriteIconClicked(isNowFavorite: Boolean) {
+        val number = checkNotNull(_state.value.hymn).number
+        if(isNowFavorite) {
+            preferences.addFavoriteHymn(number)
+        } else {
+            preferences.removeFavoriteHymn(number)
+        }
+        loadHymn(number)
     }
 
     companion object {

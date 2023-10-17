@@ -4,18 +4,18 @@ import de.dannyb.imnuri.data.local.entities.HymnEntity
 import de.dannyb.imnuri.data.remote.dto.HymnDto
 import javax.inject.Inject
 
-class HymnDtoToEntityMapper @Inject constructor(): DataClassMapper<HymnDto, HymnEntity> {
-
-    override fun map(input: HymnDto): HymnEntity {
-        return HymnEntity(
-            number = input.number,
-            title = input.title,
-            category = input.category,
-            key = input.key,
-            verses = input.verses,
-            hasMusicSheet = input.hasMusicSheet,
-            hasMp3 = input.hasMp3,
-        )
+class HymnDtoToEntityMapper @Inject constructor() {
+    fun mapAll(hymns: List<HymnDto>): List<HymnEntity> {
+        return hymns.map {
+            HymnEntity(
+                number = it.number,
+                title = it.title,
+                category = it.category,
+                key = it.key,
+                verses = it.verses,
+                hasMusicSheet = it.hasMusicSheet,
+                hasMp3 = it.hasMp3,
+            )
+        }
     }
-
 }

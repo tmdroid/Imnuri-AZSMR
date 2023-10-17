@@ -5,6 +5,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.dannyb.imnuri.data.BuildConfig
 import de.dannyb.imnuri.data.remote.ImnuriService
@@ -64,4 +65,12 @@ object DataAppModule {
     @Singleton
     @Provides
     fun provideHymnDao(database: AppDatabase) = database.hymnDao()
+
+    // Android
+
+    @Singleton
+    @Provides
+    @ApplicationContext
+    fun provideContext(application: Application) = application
+
 }

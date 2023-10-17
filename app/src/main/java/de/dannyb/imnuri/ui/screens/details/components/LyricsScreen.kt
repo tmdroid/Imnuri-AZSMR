@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +41,12 @@ fun LyricsScreen(
     operations: HymnDetailsOperations,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        TopToolbar(hymn.category, onBackPressed, operations)
+        TopToolbar(
+            title = hymn.category,
+            isFavorite = hymn.isFavorite,
+            onBackPressed = onBackPressed,
+            operations = operations
+        )
 
         Box(modifier = Modifier.weight(1f)) {
             LyricsContent(hymn, fontSize)
@@ -56,6 +62,7 @@ fun LyricsScreen(
 @Composable
 fun TopToolbar(
     title: String,
+    isFavorite: Boolean,
     onBackPressed: () -> Unit,
     operations: HymnDetailsOperations,
 ) {
@@ -67,9 +74,9 @@ fun TopToolbar(
             }
         },
         actions = {
-            IconButton(onClick = { operations.onMusicSheetIconClicked() }) {
+            IconButton(onClick = { operations.onFavoriteIconClicked(!isFavorite) }) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "favorite",
                 )
             }
@@ -126,7 +133,9 @@ fun FontSizeSlider(fontSize: Int, operations: HymnDetailsOperations) {
             TextButton(onClick = { operations.onZoomDecrement() }) {
                 Text(text = "A-", fontSize = 14.sp)
             }
-            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            Box(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
                 Slider(
                     value = fontSize.toFloat(),
                     onValueChange = { operations.onZoomChanged(it.toInt()) },

@@ -12,4 +12,6 @@ interface HymnDetailsOperations {
 
     fun onAudioIconClicked()
 
+    fun onFavoriteIconClicked(isNowFavorite: Boolean)
+
 }

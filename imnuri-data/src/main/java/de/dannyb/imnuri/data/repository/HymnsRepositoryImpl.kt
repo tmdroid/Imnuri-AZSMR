@@ -31,7 +31,7 @@ class HymnsRepositoryImpl @Inject constructor(
             }
         }
 
-        return hymns.map { hymnsEntityToModelMapper.map(it) }
+        return hymnsEntityToModelMapper.mapAll(hymns)
     }
 
     override suspend fun getHymn(number: Int): HymnModel {
@@ -41,7 +41,7 @@ class HymnsRepositoryImpl @Inject constructor(
     private suspend fun fetchHymnsAndFeedDb() = withContext(Dispatchers.IO) {
         val locale = validateLanguage(Locale.getDefault().language)
         val hymnsFromApi = api.getHymns(locale).hymns
-        val hymnsEntities = hymnsFromApi.map { hymnsDtoToEntityMapper.map(it) }
+        val hymnsEntities = hymnsDtoToEntityMapper.mapAll(hymnsFromApi)
         dao.insertAll(hymnsEntities)
     }
 
