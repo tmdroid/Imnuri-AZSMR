@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import de.dannyb.imnuri.ui.screens.hymns.HymnsScreen
+import de.dannyb.imnuri.ui.screens.AppNavigator
 import de.dannyb.imnuri.ui.theme.ImnuriTheme
 
 @AndroidEntryPoint
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HymnsScreen()
+                    AppNavigator()
                 }
             }
         }

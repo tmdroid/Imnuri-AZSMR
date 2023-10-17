@@ -5,13 +5,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import de.dannyb.imnuri.ui.screens.hymns.HymnsScreen
+import de.dannyb.imnuri.ui.screens.details.HymnDetailsScreen
+import de.dannyb.imnuri.ui.screens.details.HymnDetailsViewModel
 import de.dannyb.imnuri.ui.screens.hymns.HymnsListViewModel
+import de.dannyb.imnuri.ui.screens.hymns.HymnsScreen
 
 @Composable
 fun AppNavigator() {
     val navController = rememberNavController()
-    
+
     NavHost(navController = navController, startDestination = Screens.HymnsList.route) {
         composable(Screens.HymnsList.route) {
             val viewModel = hiltViewModel<HymnsListViewModel>()
@@ -21,16 +23,17 @@ fun AppNavigator() {
             }
         }
         composable(Screens.HymnDetails.route) {
-//            val viewModel = hiltViewModel<HymnsListViewModel>()
-//            HymnDetailsScreen(viewModel)
+            val viewModel = hiltViewModel<HymnDetailsViewModel>()
+            val number = it.arguments?.getString("number")?.toInt() ?: 0
+            HymnDetailsScreen(viewModel, number, onBackPressed = { navController.popBackStack() })
         }
     }
 }
 
 sealed class Screens(val route: String) {
-    object HymnsList : Screens("hymns_list")
-    object HymnDetails : Screens("hymn_details/{number}")
-    object Favorites : Screens("favorites")
-    object Categories : Screens("categories")
-    object Settings : Screens("settings")
+    data object HymnsList : Screens("hymns_list")
+    data object HymnDetails : Screens("hymn_details/{number}")
+    data object Favorites : Screens("favorites")
+    data object Categories : Screens("categories")
+    data object Settings : Screens("settings")
 }

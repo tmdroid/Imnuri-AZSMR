@@ -1,4 +1,4 @@
-package de.dannyb.imnuri.ui.screens.hymns.state
+package de.dannyb.imnuri.ui.screens.hymns
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

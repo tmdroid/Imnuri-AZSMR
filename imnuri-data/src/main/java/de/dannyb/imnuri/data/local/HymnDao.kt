@@ -19,9 +19,12 @@ interface HymnDao {
     fun getNumberOfHymns(): Int
 
     @Query("SELECT * FROM hymns WHERE CAST(number AS TEXT) LIKE :prefix || '%'")
-    fun getHymnByNumber(prefix: Int): List<HymnEntity>
+    fun searchHymnsByNumber(prefix: Int): List<HymnEntity>
 
     @Query("SELECT * FROM hymns WHERE title LIKE '%' || :title || '%'")
-    fun getHymnByTitle(title: String): List<HymnEntity>
+    fun searchHymnsByTitle(title: String): List<HymnEntity>
+
+    @Query("SELECT * FROM hymns WHERE number = :number")
+    fun getHymnByNumber(number: Int): HymnEntity
 
 }
