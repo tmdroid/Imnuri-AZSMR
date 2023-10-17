@@ -8,5 +8,5 @@ data class HymnsScreenState(
     val hymns: List<HymnModel> = emptyList(),
     val toolbarState: MutableState<String> = mutableStateOf("normal"),
     val isLoading: Boolean = false,
-    val error: Throwable? = null
+    val query: String? = null,
 )
