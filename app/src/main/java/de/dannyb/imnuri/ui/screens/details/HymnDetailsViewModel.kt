@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HymnDetailsViewModel @Inject constructor(
     private val getHymnUseCase: GetHymnUseCase
-) : ViewModel() {
+) : ViewModel(), HymnDetailsOperations {
 
     private val _state = MutableStateFlow(HymnDetailsScreenState())
     val state: StateFlow<HymnDetailsScreenState> get() = _state
@@ -24,14 +24,25 @@ class HymnDetailsViewModel @Inject constructor(
         _state.value = _state.value.copy(hymn = hymn, isLoading = false)
     }
 
-    fun onZoomChanged(zoom: Int) {
+    override fun onZoomIncrement() {
+        onZoomChanged(_state.value.zoom + ZOOM_INCREMENT_SIZE)
+    }
+
+    override fun onZoomDecrement() {
+        onZoomChanged(_state.value.zoom - ZOOM_INCREMENT_SIZE)
+    }
+
+    override fun onZoomChanged(zoom: Int) {
         _state.value = _state.value.copy(zoom = zoom)
     }
 
-    fun onMusicSheetIconClicked() {
+    override fun onMusicSheetIconClicked() {
     }
 
-    fun onAudioIconClicked() {
+    override fun onAudioIconClicked() {
     }
 
+    companion object {
+        private const val ZOOM_INCREMENT_SIZE = 2
+    }
 }

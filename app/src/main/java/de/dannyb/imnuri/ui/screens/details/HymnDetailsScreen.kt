@@ -17,11 +17,9 @@ fun HymnDetailsScreen(
 
     HymnDetailsContent(
         state = screenState.value,
-        onRetryLoadHymn = onBackPressed,
-        onBackPressed = { viewModel.loadHymn(number) },
-        onZoomChanged = viewModel::onZoomChanged,
-        onMusicSheetIconClicked = viewModel::onMusicSheetIconClicked,
-        onAudioIconClicked = viewModel::onAudioIconClicked
+        onRetryLoadHymn = { viewModel.loadHymn(number) },
+        onBackPressed = onBackPressed,
+        hymnDetailsOperations = viewModel
     )
 }
 
@@ -30,9 +28,7 @@ fun HymnDetailsContent(
     state: HymnDetailsScreenState,
     onRetryLoadHymn: () -> Unit,
     onBackPressed: () -> Unit,
-    onZoomChanged: (Int) -> Unit,
-    onMusicSheetIconClicked: () -> Unit,
-    onAudioIconClicked: () -> Unit
+    hymnDetailsOperations: HymnDetailsOperations,
 ) {
     if (state.hymn == null) {
         if (state.isLoading) {
@@ -45,9 +41,7 @@ fun HymnDetailsContent(
             hymn = state.hymn,
             fontSize = state.zoom,
             onBackPressed = onBackPressed,
-            onZoomChanged = onZoomChanged,
-            onMusicSheetIconClicked = onMusicSheetIconClicked,
-            onAudioIconClicked = onAudioIconClicked
+            operations = hymnDetailsOperations,
         )
     }
 }

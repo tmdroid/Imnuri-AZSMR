@@ -27,36 +27,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.dannyb.imnuri.domain.model.HymnModel
+import de.dannyb.imnuri.ui.screens.details.HymnDetailsOperations
 
 @Composable
 fun LyricsScreen(
     hymn: HymnModel,
     fontSize: Int,
     onBackPressed: () -> Unit,
-    onZoomChanged: (Int) -> Unit,
-    onMusicSheetIconClicked: () -> Unit,
-    onAudioIconClicked: () -> Unit
+    operations: HymnDetailsOperations,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        TopToolbar(hymn.category, onBackPressed, onMusicSheetIconClicked, onAudioIconClicked)
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopToolbar(hymn.category, onBackPressed, operations)
 
-        Box(
-            modifier = Modifier
-                .weight(1f)
-        ) {
+        Box(modifier = Modifier.weight(1f)) {
             LyricsContent(hymn, fontSize)
         }
 
         Box(modifier = Modifier.fillMaxWidth()) {
-            FontSizeSlider(fontSize = fontSize) {
-                onZoomChanged(it)
-            }
+            FontSizeSlider(fontSize = fontSize, operations = operations)
         }
     }
 }
@@ -66,8 +57,7 @@ fun LyricsScreen(
 fun TopToolbar(
     title: String,
     onBackPressed: () -> Unit,
-    onMusicSheetIconClicked: () -> Unit,
-    onAudioIconClicked: () -> Unit
+    operations: HymnDetailsOperations,
 ) {
     TopAppBar(
         title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
@@ -77,13 +67,13 @@ fun TopToolbar(
             }
         },
         actions = {
-            IconButton(onClick = { onMusicSheetIconClicked() }) {
+            IconButton(onClick = { operations.onMusicSheetIconClicked() }) {
                 Icon(
                     imageVector = Icons.Default.FavoriteBorder,
                     contentDescription = "favorite",
                 )
             }
-            IconButton(onClick = { onAudioIconClicked() }) {
+            IconButton(onClick = { operations.onAudioIconClicked() }) {
                 Icon(
                     imageVector = Icons.Default.PlayArrow,
                     contentDescription = null
@@ -124,7 +114,7 @@ fun LyricsContent(
 }
 
 @Composable
-fun FontSizeSlider(fontSize: Int, onValueChanged: (Int) -> Unit) {
+fun FontSizeSlider(fontSize: Int, operations: HymnDetailsOperations) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,37 +123,20 @@ fun FontSizeSlider(fontSize: Int, onValueChanged: (Int) -> Unit) {
         Text(text = "Font Size", fontWeight = FontWeight.Bold, fontSize = 14.sp)
 
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = { operations.onZoomDecrement() }) {
                 Text(text = "A-", fontSize = 14.sp)
             }
-            Box(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 Slider(
                     value = fontSize.toFloat(),
-                    onValueChange = { onValueChanged(it.toInt()) },
+                    onValueChange = { operations.onZoomChanged(it.toInt()) },
                     valueRange = 14f..42f,
                     steps = 14,
                 )
             }
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = { operations.onZoomIncrement() }) {
                 Text(text = "A+", fontSize = 24.sp)
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LyricsScreenPreview() {
-    val hymn = HymnModel(
-        number = 1,
-        title = "Doamne sfinte, Te mărim!",
-        verses = listOf("1. Doamne sfinte, Te mărim!\n"),
-        key = "Fa",
-        category = "Cântări de laudă",
-        hasMusicSheet = false,
-        hasAudio = false
-    )
-    LyricsScreen(hymn, 20, {}, {}, {}, {})
 }
