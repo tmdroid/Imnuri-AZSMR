@@ -21,7 +21,7 @@ interface HymnDao {
     @Query("SELECT * FROM hymns WHERE CAST(number AS TEXT) LIKE :prefix || '%'")
     fun searchHymnsByNumber(prefix: Int): List<HymnEntity>
 
-    @Query("SELECT * FROM hymns WHERE title LIKE '%' || :title || '%'")
+    @Query("SELECT * FROM hymns WHERE title LIKE '%' || :title || '%' OR titleEscaped LIKE '%' || :title || '%'")
     fun searchHymnsByTitle(title: String): List<HymnEntity>
 
     @Query("SELECT * FROM hymns WHERE number = :number")
