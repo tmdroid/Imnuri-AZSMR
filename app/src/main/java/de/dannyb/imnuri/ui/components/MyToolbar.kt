@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -29,6 +30,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import de.dannyb.imnuri.ext.hymnsAppToolbarColors
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -36,6 +38,7 @@ fun MyToolbar(toolbarState: MutableState<String>, onQueryChanged: (String) -> Un
     when (toolbarState.value) {
         "normal" -> {
             TopAppBar(
+                colors = TopAppBarDefaults.hymnsAppToolbarColors(),
                 title = { Text("My Hymnal") },
                 actions = {
                     IconButton(onClick = { toolbarState.value = "search" }) {

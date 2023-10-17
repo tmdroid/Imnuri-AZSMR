@@ -23,6 +23,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.dannyb.imnuri.domain.model.HymnModel
+import de.dannyb.imnuri.ext.hymnsAppToolbarColors
 import de.dannyb.imnuri.ui.screens.details.HymnDetailsOperations
 
 @Composable
@@ -68,6 +70,7 @@ fun TopToolbar(
 ) {
     TopAppBar(
         title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        colors = TopAppBarDefaults.hymnsAppToolbarColors(),
         navigationIcon = {
             IconButton(onClick = { onBackPressed() }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "back")
@@ -133,9 +136,11 @@ fun FontSizeSlider(fontSize: Int, operations: HymnDetailsOperations) {
             TextButton(onClick = { operations.onZoomDecrement() }) {
                 Text(text = "A-", fontSize = 14.sp)
             }
-            Box(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
                 Slider(
                     value = fontSize.toFloat(),
                     onValueChange = { operations.onZoomChanged(it.toInt()) },
