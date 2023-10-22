@@ -33,18 +33,11 @@ fun BottomNavigationBar(
     ) {
         val currentDestination = selectedItem.value?.destination?.route
         items.forEach { screen ->
-            val icon = when (screen) {
-                Screens.HymnsList -> Icons.Default.Home
-                Screens.Favorites -> Icons.Default.FavoriteBorder
-                Screens.Settings -> Icons.Default.Settings
-                else -> Icons.Default.Home
-            }
-
-            val text = when (screen) {
-                Screens.HymnsList -> "Hymns"
-                Screens.Favorites -> "Favorites"
-                Screens.Settings -> "Settings"
-                else -> "Hymns"
+            val (icon, text) = when (screen) {
+                Screens.HymnsList -> Icons.Default.Home to "Hymns"
+                Screens.Favorites -> Icons.Default.FavoriteBorder to "Favorites"
+                Screens.Settings -> Icons.Default.Settings to "Settings"
+                else -> Icons.Default.Home to "Hymns"
             }
 
             NavigationBarItem(
