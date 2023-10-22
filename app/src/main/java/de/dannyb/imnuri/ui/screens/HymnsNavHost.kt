@@ -1,31 +1,65 @@
 package de.dannyb.imnuri.ui.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import de.dannyb.imnuri.ui.components.BottomNavigationBar
 import de.dannyb.imnuri.ui.screens.details.HymnDetailsScreen
 import de.dannyb.imnuri.ui.screens.details.HymnDetailsViewModel
 import de.dannyb.imnuri.ui.screens.hymns.HymnsListViewModel
 import de.dannyb.imnuri.ui.screens.hymns.HymnsScreen
+import de.dannyb.imnuri.ui.screens.settings.SettingsScreen
+import de.dannyb.imnuri.ui.screens.settings.SettingsViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppNavigator() {
     val navController = rememberNavController()
+    val selectedNavigationItem = navController.currentBackStackEntryAsState()
 
-    NavHost(navController = navController, startDestination = Screens.HymnsList.route) {
-        composable(Screens.HymnsList.route) {
-            val viewModel = hiltViewModel<HymnsListViewModel>()
-            HymnsScreen(viewModel) {
-                val route = Screens.HymnDetails.route.replace("{number}", it.number.toString())
-                navController.navigate(route)
-            }
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(
+                navController = navController,
+                items = listOf(Screens.HymnsList, Screens.Favorites, Screens.Settings),
+                selectedItem = selectedNavigationItem,
+            )
         }
-        composable(Screens.HymnDetails.route) {
-            val viewModel = hiltViewModel<HymnDetailsViewModel>()
-            val number = it.arguments?.getString("number")?.toInt() ?: 0
-            HymnDetailsScreen(viewModel, number, onBackPressed = { navController.popBackStack() })
+    ) { paddingValues ->
+        NavHost(navController = navController, startDestination = Screens.HymnsList.route) {
+            composable(Screens.HymnsList.route) {
+                val viewModel = hiltViewModel<HymnsListViewModel>()
+                HymnsScreen(viewModel) {
+                    val route = Screens.HymnDetails.route.replace("{number}", it.number.toString())
+                    navController.navigate(route)
+                }
+            }
+            composable(Screens.HymnDetails.route) {
+                val viewModel = hiltViewModel<HymnDetailsViewModel>()
+                val number = it.arguments?.getString("number")?.toInt() ?: 0
+                HymnDetailsScreen(
+                    viewModel,
+                    number,
+                    onBackPressed = { navController.popBackStack() })
+            }
+            composable(Screens.Settings.route) {
+                val viewModel = hiltViewModel<SettingsViewModel>()
+                SettingsScreen(viewModel) {
+                    navController.popBackStack()
+                }
+            }
+            composable(Screens.Favorites.route) {
+                Text(text = "Nothing here yet")
+            }
+            composable(Screens.Categories.route) {
+                Text(text = "Nothing here yet")
+            }
         }
     }
 }
