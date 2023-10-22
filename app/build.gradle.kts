@@ -66,12 +66,16 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.datastore.preferences)
 
     // Dagger Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.hilt.navigation.compose)
+
+    // Settings
+    implementation(libs.compose.prefs)
 
 
     testImplementation(libs.junit)
