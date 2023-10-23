@@ -25,11 +25,13 @@ fun AppNavigator() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(
-                navController = navController,
-                items = listOf(Screens.HymnsList, Screens.Favorites, Screens.Settings),
-                selectedItem = selectedNavigationItem,
-            )
+            if (selectedNavigationItem.value?.destination?.route != Screens.HymnDetails.route) {
+                BottomNavigationBar(
+                    navController = navController,
+                    items = listOf(Screens.HymnsList, Screens.Favorites, Screens.Settings),
+                    selectedItem = selectedNavigationItem,
+                )
+            }
         }
     ) { paddingValues ->
         NavHost(navController = navController, startDestination = Screens.HymnsList.route) {
@@ -44,8 +46,8 @@ fun AppNavigator() {
                 val viewModel = hiltViewModel<HymnDetailsViewModel>()
                 val number = it.arguments?.getString("number")?.toInt() ?: 0
                 HymnDetailsScreen(
-                    viewModel,
-                    number,
+                    viewModel = viewModel,
+                    number = number,
                     onBackPressed = { navController.popBackStack() })
             }
             composable(Screens.Settings.route) {
