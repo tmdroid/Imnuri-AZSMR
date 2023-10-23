@@ -113,7 +113,7 @@ fun LyricsContent(
             Text(hymn.key, fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                hymn.verses.joinToString("\n\n"),
+                hymn.verses.joinToString("\n\n") + "\n\n",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = fontSize.sp,
                     lineHeight = (fontSize * 1.5f).sp
