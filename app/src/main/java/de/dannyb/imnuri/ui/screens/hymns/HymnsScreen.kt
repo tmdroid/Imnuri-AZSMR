@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -61,7 +61,7 @@ private fun HymnListScreen(
     LazyColumn(contentPadding = paddingValues) {
         items(hymns) { hymn ->
             HymnItem(hymn, onHymnClick, onFavoriteClick)
-            Divider(color = Color.LightGray, thickness = 1.dp)
+            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         }
     }
 }
