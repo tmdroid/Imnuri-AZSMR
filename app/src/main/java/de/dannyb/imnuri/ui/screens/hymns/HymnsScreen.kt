@@ -42,7 +42,10 @@ fun HymnsScreen(hymnsListViewModel: HymnsListViewModel, onHymnClick: (HymnModel)
         HymnListScreen(
             paddingValues = paddingValues,
             hymns = screenState.value.hymns,
-            onHymnClick = { hymn -> onHymnClick(hymn) },
+            onHymnClick = { hymn ->
+                screenState.value.toolbarState.value = HymnsToolbarState.NORMAL
+                onHymnClick(hymn)
+            },
             onFavoriteClick = { hymn -> hymnsListViewModel.toggleFavorite(hymn) })
     }
 }
