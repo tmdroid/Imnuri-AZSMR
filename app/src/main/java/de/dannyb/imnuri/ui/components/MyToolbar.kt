@@ -31,24 +31,25 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import de.dannyb.imnuri.ext.hymnsAppToolbarColors
+import de.dannyb.imnuri.ui.screens.hymns.HymnsToolbarState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun MyToolbar(toolbarState: MutableState<String>, onQueryChanged: (String) -> Unit) {
+fun MyToolbar(toolbarState: MutableState<HymnsToolbarState>, onQueryChanged: (String) -> Unit) {
     when (toolbarState.value) {
-        "normal" -> {
+        HymnsToolbarState.NORMAL -> {
             TopAppBar(
                 colors = TopAppBarDefaults.hymnsAppToolbarColors(),
                 title = { Text("My Hymnal") },
                 actions = {
-                    IconButton(onClick = { toolbarState.value = "search" }) {
+                    IconButton(onClick = { toolbarState.value = HymnsToolbarState.SEARCH }) {
                         Icon(Icons.Default.Search, contentDescription = "search")
                     }
                 }
             )
         }
 
-        "search" -> {
+        HymnsToolbarState.SEARCH -> {
             var query by remember { mutableStateOf("") }
             val focusRequester = remember { FocusRequester() }
             val keyboardController = LocalSoftwareKeyboardController.current
@@ -75,7 +76,7 @@ fun MyToolbar(toolbarState: MutableState<String>, onQueryChanged: (String) -> Un
                             val value = ""
                             query = value
                             onQueryChanged(value)
-                            toolbarState.value = "normal"
+                            toolbarState.value = HymnsToolbarState.NORMAL
                         }) { Icon(Icons.Default.ArrowBack, contentDescription = "back") }
                     },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
