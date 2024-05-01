@@ -3,7 +3,7 @@ package de.dannyb.imnuri.ui.screens.settings
 import android.content.Context
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,12 +28,14 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel, onBackPressed: () -> Unit) {
-    TopAppBar(title = { Text(text = "Settings") }, navigationIcon = {
-        IconButton(onClick = { onBackPressed() }) {
-            Icon(Icons.Default.ArrowBack, contentDescription = "")
-        }
-    },
-        colors = TopAppBarDefaults.hymnsAppToolbarColors()
+    TopAppBar(
+        title = { Text(text = "Settings") },
+        colors = TopAppBarDefaults.hymnsAppToolbarColors(),
+        navigationIcon = {
+            IconButton(onClick = { onBackPressed() }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "")
+            }
+        },
     )
 
     PrefsScreen(
