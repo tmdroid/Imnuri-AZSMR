@@ -1,9 +1,10 @@
 package de.dannyb.imnuri.ui.screens
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,7 +18,6 @@ import de.dannyb.imnuri.ui.screens.hymns.HymnsScreen
 import de.dannyb.imnuri.ui.screens.settings.SettingsScreen
 import de.dannyb.imnuri.ui.screens.settings.SettingsViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppNavigator() {
     val navController = rememberNavController()
@@ -34,7 +34,11 @@ fun AppNavigator() {
             }
         }
     ) { paddingValues ->
-        NavHost(navController = navController, startDestination = Screens.HymnsList.route) {
+        NavHost(
+            modifier = Modifier.padding(paddingValues),
+            navController = navController,
+            startDestination = Screens.HymnsList.route,
+        ) {
             composable(Screens.HymnsList.route) {
                 val viewModel = hiltViewModel<HymnsListViewModel>()
                 HymnsScreen(viewModel) {

@@ -8,6 +8,7 @@ import de.dannyb.imnuri.domain.usecase.GetHymnUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,7 +36,7 @@ class HymnDetailsViewModel @Inject constructor(
     }
 
     override fun onZoomChanged(zoom: Int) {
-        _state.value = _state.value.copy(zoom = zoom)
+        _state.update { it.copy(zoom = zoom) }
         preferences.zoom = zoom
     }
 
@@ -47,7 +48,7 @@ class HymnDetailsViewModel @Inject constructor(
 
     override fun onFavoriteIconClicked(isNowFavorite: Boolean) {
         val number = checkNotNull(_state.value.hymn).number
-        if(isNowFavorite) {
+        if (isNowFavorite) {
             preferences.addFavoriteHymn(number)
         } else {
             preferences.removeFavoriteHymn(number)
