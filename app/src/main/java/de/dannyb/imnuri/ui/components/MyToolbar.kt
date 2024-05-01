@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
@@ -33,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import de.dannyb.imnuri.ext.hymnsAppToolbarColors
 import de.dannyb.imnuri.ui.screens.hymns.HymnsToolbarState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyToolbar(toolbarState: MutableState<HymnsToolbarState>, onQueryChanged: (String) -> Unit) {
     when (toolbarState.value) {
@@ -72,12 +71,17 @@ fun MyToolbar(toolbarState: MutableState<HymnsToolbarState>, onQueryChanged: (St
                     },
                     label = { Text("Search hymns") },
                     leadingIcon = {
-                        IconButton(onClick = {
-                            val value = ""
-                            query = value
-                            onQueryChanged(value)
-                            toolbarState.value = HymnsToolbarState.NORMAL
-                        }) { Icon(Icons.Default.ArrowBack, contentDescription = "back") }
+                        IconButton(
+                            onClick = {
+                                onQueryChanged("")
+                                toolbarState.value = HymnsToolbarState.NORMAL
+                            }
+                        ) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "back"
+                            )
+                        }
                     },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(
