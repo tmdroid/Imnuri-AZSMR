@@ -13,6 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import de.dannyb.imnuri.ui.components.BottomNavigationBar
 import de.dannyb.imnuri.ui.screens.details.HymnDetailsScreen
 import de.dannyb.imnuri.ui.screens.details.HymnDetailsViewModel
+import de.dannyb.imnuri.ui.screens.favorites.FavoritesScreen
+import de.dannyb.imnuri.ui.screens.favorites.FavoritesViewModel
 import de.dannyb.imnuri.ui.screens.hymns.HymnsListViewModel
 import de.dannyb.imnuri.ui.screens.hymns.HymnsScreen
 import de.dannyb.imnuri.ui.screens.settings.SettingsScreen
@@ -42,7 +44,7 @@ fun AppNavigator() {
             composable(Screens.HymnsList.route) {
                 val viewModel = hiltViewModel<HymnsListViewModel>()
                 HymnsScreen(viewModel) {
-                    val route = Screens.HymnDetails.route.replace("{number}", it.number.toString())
+                    val route = Screens.HymnDetails.buildRoute(it.number)
                     navController.navigate(route)
                 }
             }
@@ -61,7 +63,11 @@ fun AppNavigator() {
                 }
             }
             composable(Screens.Favorites.route) {
-                Text(text = "Nothing here yet")
+                val viewModel = hiltViewModel<FavoritesViewModel>()
+                FavoritesScreen(viewModel = viewModel) {
+                    val route = Screens.HymnDetails.buildRoute(it)
+                    navController.navigate(route)
+                }
             }
             composable(Screens.Categories.route) {
                 Text(text = "Nothing here yet")
@@ -72,7 +78,10 @@ fun AppNavigator() {
 
 sealed class Screens(val route: String) {
     data object HymnsList : Screens("hymns_list")
-    data object HymnDetails : Screens("hymn_details/{number}")
+    data object HymnDetails : Screens("hymn_details/{number}") {
+        fun buildRoute(number: Int): String = route.replace("{number}", number.toString())
+    }
+
     data object Favorites : Screens("favorites")
     data object Categories : Screens("categories")
     data object Settings : Screens("settings")

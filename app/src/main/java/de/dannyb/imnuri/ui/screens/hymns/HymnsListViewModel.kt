@@ -3,12 +3,13 @@ package de.dannyb.imnuri.ui.screens.hymns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import de.dannyb.imnuri.data.pref.Preferences
 import de.dannyb.imnuri.domain.model.HymnModel
 import de.dannyb.imnuri.domain.usecase.GetAllHymnsUseCase
+import de.dannyb.imnuri.domain.usecase.ToggleFavoriteHymnUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HymnsListViewModel @Inject constructor(
     private val getAllHymnsUseCase: GetAllHymnsUseCase,
-    private val preferences: Preferences,
+    private val toggleFavoriteHymnUseCase: ToggleFavoriteHymnUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(HymnsScreenState())
@@ -31,13 +32,12 @@ class HymnsListViewModel @Inject constructor(
         }
     }
 
-    fun toggleFavorite(hymn: HymnModel) {
-        if (hymn.isFavorite) {
-            preferences.removeFavoriteHymn(hymn.number)
-        } else {
-            preferences.addFavoriteHymn(hymn.number)
-        }
+    fun toggleFavorite(hymn: HymnModel) = viewModelScope.launch(Dispatchers.IO) {
+        toggleFavoriteHymnUseCase.execute(hymn)
         getAllHymns(_screenState.value.query)
     }
 
+    fun onToolbarStateChanged(state: HymnsToolbarState) {
+        _screenState.update { it.copy(toolbarState = state) }
+    }
 }

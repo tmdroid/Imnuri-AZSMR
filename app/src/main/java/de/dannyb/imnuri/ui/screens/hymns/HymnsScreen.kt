@@ -1,7 +1,6 @@
 package de.dannyb.imnuri.ui.screens.hymns
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,16 +33,17 @@ fun HymnsScreen(hymnsListViewModel: HymnsListViewModel, onHymnClick: (HymnModel)
 
     Scaffold(
         topBar = {
-            MyToolbar(screenState.value.toolbarState) { query ->
-                hymnsListViewModel.getAllHymns(query)
-            }
+            MyToolbar(screenState.value.toolbarState,
+                onToolbarStateChanged = { hymnsListViewModel.onToolbarStateChanged(it) },
+                onQueryChanged = { query -> hymnsListViewModel.getAllHymns(query) }
+            )
         },
     ) { paddingValues ->
         HymnListScreen(
-            paddingValues = paddingValues,
+            modifier = Modifier.padding(paddingValues),
             hymns = screenState.value.hymns,
             onHymnClick = { hymn ->
-                screenState.value.toolbarState.value = HymnsToolbarState.NORMAL
+                hymnsListViewModel.onToolbarStateChanged(HymnsToolbarState.NORMAL)
                 onHymnClick(hymn)
             },
             onFavoriteClick = { hymn -> hymnsListViewModel.toggleFavorite(hymn) })
@@ -52,13 +52,13 @@ fun HymnsScreen(hymnsListViewModel: HymnsListViewModel, onHymnClick: (HymnModel)
 
 
 @Composable
-private fun HymnListScreen(
-    paddingValues: PaddingValues,
+fun HymnListScreen(
+    modifier: Modifier = Modifier,
     hymns: List<HymnModel>,
     onHymnClick: (HymnModel) -> Unit,
     onFavoriteClick: (HymnModel) -> Unit,
 ) {
-    LazyColumn(contentPadding = paddingValues) {
+    LazyColumn(modifier) {
         items(hymns) { hymn ->
             HymnItem(hymn, onHymnClick, onFavoriteClick)
             HorizontalDivider(thickness = 1.dp, color = Color.LightGray)

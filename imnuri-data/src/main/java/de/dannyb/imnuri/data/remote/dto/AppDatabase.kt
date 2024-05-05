@@ -7,7 +7,7 @@ import de.dannyb.imnuri.data.local.HymnDao
 import de.dannyb.imnuri.data.local.entities.HymnEntity
 import de.dannyb.imnuri.data.utils.Converters
 
-@Database(entities = [HymnEntity::class], version = 1, exportSchema = true)
+@Database(entities = [HymnEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun hymnDao(): HymnDao

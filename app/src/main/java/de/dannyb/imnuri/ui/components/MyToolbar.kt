@@ -16,7 +16,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,14 +33,18 @@ import de.dannyb.imnuri.ui.screens.hymns.HymnsToolbarState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyToolbar(toolbarState: MutableState<HymnsToolbarState>, onQueryChanged: (String) -> Unit) {
-    when (toolbarState.value) {
+fun MyToolbar(
+    toolbarState: HymnsToolbarState,
+    onToolbarStateChanged: ((HymnsToolbarState) -> Unit)? = null,
+    onQueryChanged: ((String) -> Unit)? = null,
+) {
+    when (toolbarState) {
         HymnsToolbarState.NORMAL -> {
             TopAppBar(
                 colors = TopAppBarDefaults.hymnsAppToolbarColors(),
                 title = { Text("My Hymnal") },
                 actions = {
-                    IconButton(onClick = { toolbarState.value = HymnsToolbarState.SEARCH }) {
+                    IconButton(onClick = { onToolbarStateChanged?.invoke(HymnsToolbarState.SEARCH) }) {
                         Icon(Icons.Default.Search, contentDescription = "search")
                     }
                 }
@@ -67,14 +70,14 @@ fun MyToolbar(toolbarState: MutableState<HymnsToolbarState>, onQueryChanged: (St
                     value = query,
                     onValueChange = {
                         query = it
-                        onQueryChanged(it)
+                        onQueryChanged?.invoke(it)
                     },
                     label = { Text("Search hymns") },
                     leadingIcon = {
                         IconButton(
                             onClick = {
-                                onQueryChanged("")
-                                toolbarState.value = HymnsToolbarState.NORMAL
+                                onQueryChanged?.invoke("")
+                                onToolbarStateChanged?.invoke(HymnsToolbarState.NORMAL)
                             }
                         ) {
                             Icon(

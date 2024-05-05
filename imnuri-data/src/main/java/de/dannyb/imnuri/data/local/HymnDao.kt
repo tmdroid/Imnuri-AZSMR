@@ -25,6 +25,6 @@ interface HymnDao {
     fun searchHymnsByTitle(title: String): List<HymnEntity>
 
     @Query("SELECT * FROM hymns WHERE number = :number")
-    fun getHymnByNumber(number: Int): HymnEntity
+    fun getHymnByNumber(number: Int): HymnEntity?
 
 }
