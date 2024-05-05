@@ -22,6 +22,9 @@ javax-inject = "1"
 okhttp = "4.12.0"
 datastore-preferences = "1.1.1"
 compose-prefs = "1.0.4"
+androidx-preference = "1.2.1"
+
+apacheCommonsLang3 = "3.13.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -56,6 +59,9 @@ lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-
 javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax-inject" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
 compose-prefs = { group = "com.github.JamalMulla", name = "ComposePrefs3", version.ref = "compose-prefs" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "androidx-preference" }
+
+apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apacheCommonsLang3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

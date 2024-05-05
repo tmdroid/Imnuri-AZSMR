@@ -1,8 +1,8 @@
 package de.dannyb.imnuri.data.mapper
 
 import de.dannyb.imnuri.data.local.entities.HymnEntity
-import de.dannyb.imnuri.data.pref.Preferences
 import de.dannyb.imnuri.domain.model.HymnModel
+import de.dannyb.imnuri.domain.repository.Preferences
 import javax.inject.Inject
 
 class HymnEntityToModelMapper @Inject constructor(

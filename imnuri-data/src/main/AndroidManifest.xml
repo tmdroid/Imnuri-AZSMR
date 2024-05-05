@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <provider
+            android:name=".utils.InitProvider"
+            android:authorities="${applicationId}.data-init-provider"
+            android:exported="false"
+            android:grantUriPermissions="false" />
+    </application>
+
+</manifest>

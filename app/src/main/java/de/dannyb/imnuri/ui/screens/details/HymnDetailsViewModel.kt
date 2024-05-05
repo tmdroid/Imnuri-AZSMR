@@ -3,7 +3,7 @@ package de.dannyb.imnuri.ui.screens.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import de.dannyb.imnuri.data.pref.Preferences
+import de.dannyb.imnuri.domain.repository.Preferences
 import de.dannyb.imnuri.domain.usecase.GetHymnUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.preference)
+    implementation(libs.apache.commons.lang3)
 
     // OkHttp + Retrofit
     implementation(libs.okhttp.logging.interceptor)

@@ -1,13 +1,15 @@
 package de.dannyb.imnuri.data.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import de.dannyb.imnuri.data.BuildConfig
+import de.dannyb.imnuri.data.local.HymnDao
 import de.dannyb.imnuri.data.remote.ImnuriService
 import de.dannyb.imnuri.data.remote.dto.AppDatabase
 import okhttp3.OkHttpClient
@@ -50,6 +52,10 @@ object DataAppModule {
     fun provideImnuriService(retrofit: Retrofit): ImnuriService =
         retrofit.create(ImnuriService::class.java)
 
+    @Singleton
+    @Provides
+    fun provideGson(): Gson = Gson()
+
     // Room Database
 
     @Singleton
@@ -64,13 +70,12 @@ object DataAppModule {
 
     @Singleton
     @Provides
-    fun provideHymnDao(database: AppDatabase) = database.hymnDao()
+    fun provideHymnDao(database: AppDatabase): HymnDao = database.hymnDao()
 
     // Android
 
     @Singleton
     @Provides
-    @ApplicationContext
-    fun provideContext(application: Application) = application
+    fun provideContext(application: Application): Context = application
 
 }
